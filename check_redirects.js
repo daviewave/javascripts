@@ -2,21 +2,37 @@ function observeDOMChangesFor5Seconds() {
     const observer = new MutationObserver((mutationsList) => {
         for (const mutation of mutationsList) {
             // 1,
-            console.log('');
-            console.log('#=! DOM Mutation Detected' + mutation.target + '!-#');
+            console.log('\n');
+            console.log('#=! DOM Mutation Detected (' + mutation.type + ') !-#');
             
-            // 2,
-            console.log('\tremoved nodes:', mutation.removedNodes);
+            // 2, target 
+            console.log('target elem:', mutation.target);
+
+            
+            // 3,
+            if (mutation.removedNodes.length > 0) {
+                mutation.removedNodes.forEach((node) => {
+                    console.log("node attrs: ", node.attributeName);
+                    console.log("node attrs: ", node.attributes);
+                    console.log("node attrs: ", node.oldValue);
+                });
+                console.log('\tremoved nodes:', mutation.removedNodes);
+            }
             console.log('\told val:', mutation.oldValue);
             console.log('\tprev sibs:', mutation.previousSibling);
 
             // 3,
-            console.log('\type:', mutation.type);
             console.log('\tattr:', mutation.attributeName);
             console.log('\tattr namespace:', mutation.attributeNamespace);
             
             // 4,
-            console.log('\tnew nodes:', mutation.addedNodes);
+            if (mutation.addedNodes.length > 0) {
+                mutation.addedNodes.forEach((node) => {
+
+                });
+                console.log('\tadded nodes:', mutation.addedNodes);
+            }
+
         }
     });
 
