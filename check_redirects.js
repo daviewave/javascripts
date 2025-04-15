@@ -31,19 +31,19 @@ const log_dom_target = (dom_elem) => {
     log_dom_elem_attr(dom_elem, "childNodes", false);
     log_dom_elem_attr(dom_elem, "hidden", false);
     log_dom_elem_attr(dom_elem, "nodeName", false);
-    log_dom_elem_attr(dom_elem, "nodeValue", false);
-    log_dom_elem_attr(dom_elem, "outerHtml", false);
-    log_dom_elem_attr(dom_elem, "innerHtml", false);
     log_dom_elem_attr(dom_elem, "ownerDocument", false);
     log_dom_elem_attr(dom_elem, "parentNode", false);
     log_dom_elem_attr(dom_elem, "type", false);
     log_dom_elem_attr(dom_elem, "validity", false);
-
+    
     // 2, values to log if not null/empty
+    log_dom_elem_attr(dom_elem, "nodeValue", true);
     log_dom_elem_attr(dom_elem, "files", true);
     log_dom_elem_attr(dom_elem, "form", true);
     log_dom_elem_attr(dom_elem, "formAction", true);
     log_dom_elem_attr(dom_elem, "nextSibling", true);
+    log_dom_elem_attr(dom_elem, "outerHtml", false);
+    log_dom_elem_attr(dom_elem, "innerHtml", false);
     log_dom_elem_attr(dom_elem, "onclick", true);
     log_dom_elem_attr(dom_elem, "textContent", true);
     log_dom_elem_attr(dom_elem, "oninput", true);
@@ -78,7 +78,7 @@ const log_char_data_fields = (target) => {
 }
 
 
-function observeDOMChangesFor5Seconds(){
+function observeDOMChangesFor5Seconds(seconds){
     const observer = new MutationObserver((mutationsList) => {
         for (const mutation of mutationsList) {
             // 1, log mutation alert
@@ -113,17 +113,20 @@ function observeDOMChangesFor5Seconds(){
         }
     });
 
-    // Observe the entire document for child and attribute changes
+
+    // 3, add doc observer
     observer.observe(document, {
         childList: true,
-        subtree: true,
         attributes: true,
-        characterData: true
+        attributeOldValue: true,
+        characterDataOldValue: true,
+        characterData: true,
+        subtree: true,
     });
 
-    // Stop observing after 5 seconds
+    // 4, timer for 10 secs
     setTimeout(() => {
         observer.disconnect();
         console.log('🛑 Stopped observing DOM changes.');
-    }, 5000);
+    }, seconds);
 }
