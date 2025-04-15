@@ -17,15 +17,15 @@
 
 // 2.a+b, childData & attributes
 const log_mutation_field = (mut, field) => {
-    if((!mut.field) || (Array.isArray(mut.field) && mut.field.length < 1))  {
+    if((!mut[field]) || (Array.isArray(mut[field]) && mut[field].length < 1)){
         return;
     }
-    console.log("\t" + field + ": " + mut.field);
+    console.log(field + ": ", mut[field]);
 }
 
 const log_dom_target = (dom_elem) => {
-    console.log("\ttarget dom attributes:");
-    
+    console.log("target dom attributes:");
+
     // 1, values to log regardless if empty or null
     log_dom_elem_attr(dom_elem, "attributes", false);
     log_dom_elem_attr(dom_elem, "childNodes", false);
@@ -54,27 +54,27 @@ const log_dom_target = (dom_elem) => {
 }
 
 const log_dom_elem_attr = (target_dom_elem, attr, skip_if_empty) => {
-    if((!target_dom_elem.attr) && (Array.isArray(target_dom_elem.attr) && target_dom_elem.attr.length < 1)){
+    if(target_dom_elem[attr] == null || (Array.isArray(target_dom_elem[attr]) && target_dom_elem[attr].length < 1)){
         if(skip_if_empty){
             return;
+        } else {
+            console.log("\t-> " + attr + ": empty");
         }
-        console.log("\t\t-> " + target + ": empty");
+    } else {
+        console.log("\t-> " + attr + ": ", target_dom_elem[attr]);
     }
-    console.log("\t\t-> " + attr + ": " + target_dom_elem.attr);
 }
 
 
 // 2.c, characterData
 const log_char_data_fields = (target) => {
-    console.log("\tdata: " + target.data);
-    console.log("\twhole text: " + target.wholeText);
-    console.log("\tparent elem: " + target.parentElement);
-    console.log("\tnode type: " + target.type);
-    console.log("\tis connected: " + target.isConnected);
-    console.log("\towner document: " + target.ownerDocument);
-    console.log("\tprevious sib: " + target.previousSibling);
-    console.log("\tbaseURI: " + target.baseURI);
-    console.log("\tbaseURI: " + target.baseURI);
+    console.log("\tdata: ", target.data);
+    console.log("\twhole text: ", target.wholeText);
+    console.log("\tparent elem: ", target.parentElement);
+    console.log("\tnode type: ", target.type);
+    console.log("\tis connected: ", target.isConnected);
+    console.log("\towner document: ", target.ownerDocument);
+    console.log("\tprevious sib: ", target.previousSibling);
 }
 
 
@@ -84,8 +84,8 @@ function observeDOMChangesFor5Seconds(){
             // 1, log mutation alert
             console.log('\n');
             console.log('#=! DOM Mutation Detected (' + mutation.type + ') !-#');
-            console.log("\ttarget --> " + mutation.target);
-        
+            console.log("target --> ", mutation.target);
+
             // 2, log output based on type
             switch(mutation.type){
                 case 'childList':
@@ -108,7 +108,7 @@ function observeDOMChangesFor5Seconds(){
                     break;
 
                 default:
-                        break;             
+                    break;
             }
         }
     });
