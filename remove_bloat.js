@@ -90,6 +90,14 @@
         remove_elems(document.querySelectorAll('a[href="#main"]'));
     }
 
+    const remove_unused_div_tag = () => {
+        remove_elems(document.querySelectorAll('div[class*="bg-token-sidebar-surface-primary relative"]'));
+    }
+
+    const remove_scripts = () => {
+        remove_elems(document.querySelectorAll('script'));
+    }
+
     // 1,
     async function clean_head(){
         remove_preloads();
@@ -100,16 +108,19 @@
         remove_accessibility_elems();
         //remove_audio();
         remove_left_0();
+        remove_scripts();
 
         await wait(2.0);
         remove_unneeded_metadata();
         remove_empty_crossorigin_links();
+        remove_unused_div_tag();
 
 
         await wait(3.0);
         clean_spans();
         remove_a_tag_to_main();
     }
+
 
     // 2,
     async function clean_body(){
